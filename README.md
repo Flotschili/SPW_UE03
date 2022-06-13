@@ -48,7 +48,7 @@ nano /etc/gitlab-runner/config.toml
 6. Create and run container (using a WSL2 Linux shell):
 ```shell
 docker run -d --name gitlab-runner --restart always --network gitlab-runner-net \
-           -v gitlab-runner-vol:/etc/gitlab-runner \
+           -v gitlab-runner-volume:/etc/gitlab-runner \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v /usr/bin/docker:/usr/bin/docker \
            -v /usr/bin/com.docker.cli:/usr/bin/com.docker.cli \
