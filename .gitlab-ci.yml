@@ -11,7 +11,7 @@ build:
   tags:
     - docker
   cache:
-    path:
+    paths:
       - $maven_packages_cache
   script:
     - mvn compile
@@ -19,7 +19,7 @@ build:
 test:
   stage: test
   cache:
-    path:
+    paths:
       - $maven_packages_cache
   tags:
     - docker
