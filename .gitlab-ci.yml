@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - package
+  - deploy
 
 variables:
   maven_packages_cache: ".m2/repository"
@@ -56,3 +57,16 @@ package:
       - "target/*.war"
   script:
     - mvn package
+
+deploy:
+  stage: deploy
+  tags:
+    - shell
+  dependencies:
+    - package
+  when: manual
+  script:
+    - docker rm --force game2048
+    - docker image rm --force game2048
+    - echo -e 'FROM tomcat:9-jdk17-openjdk-slim \n COPY ./target/game2048.war /usr/local/tomcat/webapps' | docker build -t game2048 -f- .
+    - docker run --rm -d --name game2048 -p 8080:8080 game2048
