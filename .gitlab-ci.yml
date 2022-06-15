@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - analyse
   - package
   - deploy
 
@@ -40,6 +41,19 @@ test:
       - "target/site/jacoco/*"
   script:
     - mvn test
+
+analyse:
+  stage: analyse
+  cache:
+    paths:
+      - $maven_packages_cache
+  tags:
+    - docker
+  dependencies:
+    - build
+    - test
+  script:
+    - mvn sonar:sonar -Dsonar.projectKey=game2048 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=e7f82f027e1019a0965846db206ea04dc6717c88
 
 package:
   stage: package
