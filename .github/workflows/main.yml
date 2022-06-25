@@ -95,8 +95,8 @@ jobs:
     runs-on: self-hosted
     environment:
       name: 2048-deploy
-      url: https://github.com
-    steps:     
+      url: http://localhost:8080/game2048/
+    steps:
       - name: Downloading artifact
         uses: actions/download-artifact@v3
           
@@ -106,9 +106,3 @@ jobs:
           docker image rm --force game2048
           echo -e 'FROM tomcat:9-jdk17-openjdk-slim \n COPY ./target/game2048.war /usr/local/tomcat/webapps' | docker build -t game2048 -f- .
           docker run --rm -d --name game2048 -p 8080:8080 game2048
-        
-      - uses: actions/upload-artifact@v3
-        with:
-          name: env.GITHUB_ACTION-env.GITHUB_JOB
-          path: "target/*"
-          retention-days: 5
