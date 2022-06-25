@@ -13,6 +13,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  maven_packages_cache: ".m2/repository"
+  MAVEN_OPTS: "-Dmaven.repo.local=./$maven_packages_cache"
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -33,3 +37,8 @@ jobs:
           
       - name: Maven Build
         run: mvn compile
+        
+      - uses: actions/upload-artifact@v3
+        with:
+          name: $CI_JOB_NAME-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+          path: "target/*"
